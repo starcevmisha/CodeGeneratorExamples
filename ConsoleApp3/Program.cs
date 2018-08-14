@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,10 +9,11 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Emit;
 
 namespace ConsoleApp3
 {
-	internal class Person
+	public class Person
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
@@ -56,14 +59,14 @@ namespace ConsoleApp3
 			var lambda2 = BuildDictionaryToTypeExpression(typeof(Person));
 
 			//            SaveLambda(lambda2);
-			RoslynExampleGenerateMethodWithCSharpSyntaxFactory(typeof(Person));
+			var per12 = RoslynExampleGenerateMethodWithCSharpSyntaxFactory(typeof(Person))(dictionary);
 			var person = lambda2.Compile()(dictionary);
 			var personReflection = MapDictionaryToTypeReflection(typeof(Person), dictionary);
 			var personHM = MapDictionaryToTypeHandMade(dictionary);
 			var b = 67;
 		}
 
-		public static void RoslynExampleGenerateMethodWithCSharpSyntaxFactory(Type type)
+		public static Func<Dictionary<string, object>, object> RoslynExampleGenerateMethodWithCSharpSyntaxFactory(Type type)
 		{
 			var ifBlock = new StringBuilder();
 			foreach (var property in type.GetProperties())
@@ -75,16 +78,34 @@ namespace ConsoleApp3
 				", property.Name, property.PropertyType.Name);
 			}
 
-			var code = $@"public static object MapDictionaryToType1(Dictionary<string, object> dictionary)
+			var code = $@"
+using System;
+using System.Collections.Generic;
+using {type.Namespace};
+
+public static class A{{
+			public static object MapDictionary(Dictionary<string, object> dictionary)
 			{{
 				var target = new {type.Name}();
 				object value;
-				return person;
 				{ifBlock}
+				return target;
+			}}
 			}}
 			";
-			Console.WriteLine(code);
+
+			var syntaxTree = CSharpSyntaxTree.ParseText(code);
+			var assembly = Compiler.CompileAndLoad(syntaxTree);
+
+			var typeA = assembly.GetType("A");
+			return (dic) =>
+			typeA.InvokeMember("MapDictionary",
+				BindingFlags.Default | BindingFlags.InvokeMethod,
+				null,
+				typeA,
+				new object[] { dic });
 		}
+
 
 		public static void RoslynExampleGenerateMethod(Type type)
 		{
@@ -144,6 +165,8 @@ namespace ConsoleApp3
 				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
 					SyntaxFactory.Token(SyntaxKind.StaticKeyword))
 				.WithBody(block);
+
+
 
 			// Output new code to the console.
 			var code = methodDeclaration
