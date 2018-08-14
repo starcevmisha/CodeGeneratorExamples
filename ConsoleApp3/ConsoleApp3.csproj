@@ -165,6 +165,10 @@
     <Compile Include="Compiler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionExample.cs" />
+    <Compile Include="ExpressionTreeExample.cs" />
+    <Compile Include="RoslynRawExample.cs" />
+    <Compile Include="RoslynWithStringBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
