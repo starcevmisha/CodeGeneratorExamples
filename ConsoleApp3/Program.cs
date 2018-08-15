@@ -13,29 +13,29 @@ namespace ConsoleApp3
 {
 	public class Person
 	{
-		public int Id { get; set; }
+		public string Id { get; set; }
 		public string Name { get; set; }
-		public DateTime Date { get; set; }
+		public string Date { get; set; }
 	}
 
 	internal class Program
 	{
 		private static Dictionary<string, object> dictionary = new Dictionary<string, object>
 		{
-			{"Id", 5},
+			{"Id", "5"},
 			{"Name", "Misha"},
-			{"Date", new DateTime(1999, 5, 1)}
+			{"Date", "05.01.1999"}
 		};
 
 		public static object MapDictionaryToType1(Dictionary<string, object> dictionary)
 		{
 			var person = new Person();
 			object value;
-			if (dictionary.TryGetValue("Id", out value)) person.Id = (int) value;
+			if (dictionary.TryGetValue("Id", out value)) person.Id = (string)value;
 
 			if (dictionary.TryGetValue("Name", out value)) person.Name = (string) value;
 
-			if (dictionary.TryGetValue("Date", out value)) person.Date = (DateTime) value;
+			if (dictionary.TryGetValue("Date", out value)) person.Date = (string)value;
 
 			return person;
 		}
@@ -44,12 +44,14 @@ namespace ConsoleApp3
 		{
 //			var lambda1 = ExpressionTreeExample.SimpleExpression();
 			//                        SaveLambda(lambda1);
-
-			var personReflection = ReflectionExample.MapDictionaryToTypeReflection(typeof(Person));
-			var expressonTree = ExpressionTreeExample.BuildDictionaryToTypeExpression(typeof(Person));
-			var rawRoslyn = RoslynRawExample.GenerateMethod(typeof(Person));
-			var sbRoslyn = RoslynWithStringBuilder.GenerateMethod(typeof(Person));
+//
+//			var personReflection = ReflectionExample.MapDictionaryToTypeReflection(typeof(Person));
+//			var expressonTree = ExpressionTreeExample.BuildDictionaryToTypeExpression(typeof(Person));
+//			var rawRoslyn = RoslynRawExample.GenerateMethod(typeof(Person));
+//			var sbRoslyn = RoslynWithStringBuilder.GenerateMethod(typeof(Person));
 			var reflectionEmit = ReflectionEmitExample.GenerateMethod(typeof(Person));
+
+			var pers = reflectionEmit(dictionary);
 
 
 			var personHM = MapDictionaryToTypeHandMade(dictionary);
@@ -91,11 +93,11 @@ namespace ConsoleApp3
 			var person = new Person();
 			object value;
 			if (dictionary.TryGetValue("Id", out value))
-				person.Id = (int) value;
+				person.Id = (string)value;
 			if (dictionary.TryGetValue("Name", out value))
 				person.Name = (string) value;
 			if (dictionary.TryGetValue("Date", out value))
-				person.Date = (DateTime) value;
+				person.Date = (string)value;
 			return person;
 		}
 	}

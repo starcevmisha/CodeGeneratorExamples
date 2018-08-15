@@ -12,16 +12,16 @@ namespace ConsoleApp3
 
 			if (dictionary.TryGetValue("Id", out value))
 			{
-				target.Id = (Int32)value;
+				target.Id = (string)value;
 			}
-//			if (dictionary.TryGetValue("Name", out value))
-//			{
-//				target.Name = (String)value;
-//			}
-//			if (dictionary.TryGetValue("Date", out value))
-//			{
-//				target.Date = (DateTime)value;
-//			}
+			if (dictionary.TryGetValue("Name", out value))
+			{
+				target.Name = (string)value;
+			}
+			if (dictionary.TryGetValue("Date", out value))
+			{
+				target.Date = (string)value;
+			}
 
 			return target;
 		}
