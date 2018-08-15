@@ -49,10 +49,10 @@ namespace ConsoleApp3
 //			var expressonTree = ExpressionTreeExample.BuildDictionaryToTypeExpression(typeof(Person));
 //			var rawRoslyn = RoslynRawExample.GenerateMethod(typeof(Person));
 //			var sbRoslyn = RoslynWithStringBuilder.GenerateMethod(typeof(Person));
-			var reflectionEmit = ReflectionEmitExample.GenerateMethod(typeof(Person));
+//			var reflectionEmit = ReflectionEmitExample.GenerateMethod(typeof(Person));
 
-			var pers = reflectionEmit(dictionary);
-
+//			var pers = reflectionEmit(dictionary);
+			var persGremit = GremitExample.GenerateMethod(typeof(Person))(dictionary);
 
 			var personHM = MapDictionaryToTypeHandMade(dictionary);
 		}
