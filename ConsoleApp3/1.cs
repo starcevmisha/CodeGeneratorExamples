@@ -14,14 +14,14 @@ namespace ConsoleApp3
 			{
 				target.Id = (Int32)value;
 			}
-			if (dictionary.TryGetValue("Name", out value))
-			{
-				target.Name = (String)value;
-			}
-			if (dictionary.TryGetValue("Date", out value))
-			{
-				target.Date = (DateTime)value;
-			}
+//			if (dictionary.TryGetValue("Name", out value))
+//			{
+//				target.Name = (String)value;
+//			}
+//			if (dictionary.TryGetValue("Date", out value))
+//			{
+//				target.Date = (DateTime)value;
+//			}
 
 			return target;
 		}

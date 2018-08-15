@@ -167,6 +167,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionExample.cs" />
     <Compile Include="ExpressionTreeExample.cs" />
+    <Compile Include="ReflectionEmitExample.cs" />
     <Compile Include="RoslynRawExample.cs" />
     <Compile Include="RoslynWithStringBuilder.cs" />
   </ItemGroup>

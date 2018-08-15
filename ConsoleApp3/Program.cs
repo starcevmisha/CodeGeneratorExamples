@@ -49,29 +49,41 @@ namespace ConsoleApp3
 			var expressonTree = ExpressionTreeExample.BuildDictionaryToTypeExpression(typeof(Person));
 			var rawRoslyn = RoslynRawExample.GenerateMethod(typeof(Person));
 			var sbRoslyn = RoslynWithStringBuilder.GenerateMethod(typeof(Person));
+			var reflectionEmit = ReflectionEmitExample.GenerateMethod(typeof(Person));
 
 
 			var personHM = MapDictionaryToTypeHandMade(dictionary);
 		}
 
 
-		private static void SaveLambda<T>(Expression<T> lambda2)
-		{
-			var da = AppDomain.CurrentDomain.DefineDynamicAssembly(
-				new AssemblyName("dyn"), // call it whatever you want
-				AssemblyBuilderAccess.Save);
-
-			var dm = da.DefineDynamicModule("dyn_mod", "dyn.dll");
-			var dt = dm.DefineType("dyn_type");
-			var method = dt.DefineMethod(
-				"Foo",
-				MethodAttributes.Public | MethodAttributes.Static);
-
-			lambda2.CompileToMethod(method);
-			dt.CreateType();
-
-			da.Save("dyn.dll");
-		}
+//		private static void DynamicAssembly()
+//		{
+//			var da = AppDomain.CurrentDomain.DefineDynamicAssembly(
+//				new AssemblyName("dyn"), // call it whatever you want
+//				AssemblyBuilderAccess.Save);
+//
+//			var dm = da.DefineDynamicModule("dyn_mod", "dyn.dll");
+//			var dt = dm.DefineType("dyn_type");
+//			var method = dt.DefineMethod(
+//				"Foo",
+//				MethodAttributes.Public | MethodAttributes.Static,
+//				typeof(object), new[] {typeof(Dictionary<string, object>)});
+//			method.DefineParameter(1, ParameterAttributes.None, "source");
+//			GenerateMethod(method.GetILGenerator());
+//			method.CreateDelegate(/*какой-то тип*/)
+//			dt.CreateType();
+//
+//			da.Save("dyn.dll");
+//		}
+//
+//		private static void DynamicMethodCreator()
+//		{
+//var method = new DynamicMethod("Foo", typeof(object), new[] {typeof(Dictionary<string, object>)});
+//var prm = method.DefineParameter(1, ParameterAttributes.None, "source");
+//
+//GenerateMapMethodBody(method.GetILGenerator());
+//method.CreateDelegate(/*какой-то тип*/)
+//		}
 
 
 		public static object MapDictionaryToTypeHandMade(Dictionary<string, object> dictionary)
