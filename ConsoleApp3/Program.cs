@@ -11,6 +11,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ConsoleApp3
 {
+
 	public class Person
 	{
 		public string Id { get; set; }
@@ -42,16 +43,12 @@ namespace ConsoleApp3
 
 		private static void Main(string[] args)
 		{
-//			var lambda1 = ExpressionTreeExample.SimpleExpression();
-			//                        SaveLambda(lambda1);
-//
-//			var personReflection = ReflectionExample.MapDictionaryToTypeReflection(typeof(Person));
-//			var expressonTree = ExpressionTreeExample.BuildDictionaryToTypeExpression(typeof(Person));
-//			var rawRoslyn = RoslynRawExample.GenerateMethod(typeof(Person));
-//			var sbRoslyn = RoslynWithStringBuilder.GenerateMethod(typeof(Person));
-//			var reflectionEmit = ReflectionEmitExample.GenerateMethod(typeof(Person));
 
-//			var pers = reflectionEmit(dictionary);
+			var personReflection = ReflectionExample.GenerateMethod(typeof(Person))(dictionary);
+			var expressonTree = ExpressionTreeExample.GenerateMethod(typeof(Person))(dictionary);
+			var rawRoslyn = RoslynRawExample.GenerateMethod(typeof(Person))(dictionary);
+			var sbRoslyn = RoslynWithStringBuilder.GenerateMethod(typeof(Person))(dictionary);
+			var reflectionEmit = ReflectionEmitExample.GenerateMethod(typeof(Person))(dictionary);
 			var persGremit = GremitExample.GenerateMethod(typeof(Person))(dictionary);
 
 			var personHM = MapDictionaryToTypeHandMade(dictionary);

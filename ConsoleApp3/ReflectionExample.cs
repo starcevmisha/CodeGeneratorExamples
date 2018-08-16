@@ -8,7 +8,7 @@ namespace ConsoleApp3
 {
 	public class ReflectionExample
 	{
-		public static Func<Dictionary<string, object>, object> MapDictionaryToTypeReflection(Type type)
+		public static Func<Dictionary<string, object>, object> GenerateMethod(Type type)
 		{
 			return (dic) =>
 			{

@@ -11,6 +11,8 @@ namespace ConsoleApp3
 {
 	public static class ReflectionEmitExample
 	{
+		public delegate object Generate(Dictionary<string, object> dictionary);
+
 		[SuppressMessage("ReSharper", "PossibleNullReferenceException")]
 		public static Func<Dictionary<string, object>, object> GenerateMethod(Type type)
 		{
@@ -64,7 +66,8 @@ namespace ConsoleApp3
 			da.Save("dyn.dll");
 
 
-			return (dic) => dt.GetMethod("Foo").Invoke(null, new object[] {dic});
+			return (Func<Dictionary<string, object>, object>) dt.GetMethod("Foo")
+				.CreateDelegate(typeof(Func<Dictionary<string, object>, object>));
 		}
 	}
 }

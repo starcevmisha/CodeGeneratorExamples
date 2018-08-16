@@ -8,6 +8,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace ConsoleApp3
 {
+
 	public class RoslynRawExample
 	{
 		public static Func<Dictionary<string, object>, object> GenerateMethod(Type type)
@@ -108,21 +109,15 @@ namespace ConsoleApp3
 							.AddMembers(methodDeclaration)
 					));
 
-			// Output new code to the console.
-//			var code = @namespace
-//				.NormalizeWhitespace()
-//				.ToFullString();
-//			Console.WriteLine(code);
 
 			var assembly = Compiler.CompileAndLoad(@namespace.SyntaxTree);
 
 			var typeWithMethod = assembly.GetType("RoslynCodeGeneration");
-			return dic =>
-				typeWithMethod.InvokeMember("MapDictionary",
-					BindingFlags.Default | BindingFlags.InvokeMethod,
-					null,
-					typeWithMethod,
-					new object[] {dic});
+			var method = typeWithMethod.GetMethod("MapDictionary",
+				BindingFlags.Public | BindingFlags.Static);
+
+
+			return (Func<Dictionary<string, object>, object>)method.CreateDelegate(typeof(Func<Dictionary<string, object>, object>));
 		}
 	}
 }

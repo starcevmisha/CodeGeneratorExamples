@@ -42,12 +42,10 @@ public static object MapDictionary(Dictionary<string, object> dictionary)
 			var assembly = Compiler.CompileAndLoad(syntaxTree);
 
 			var typeA = assembly.GetType("CodeGenerationSample.StringBuilderCodeGeneration");
-			return dic =>
-				typeA.InvokeMember("MapDictionary",
-					BindingFlags.Default | BindingFlags.InvokeMethod,
-					null,
-					typeA,
-					new object[] {dic});
+			var method = typeA.GetMethod("MapDictionary",
+				BindingFlags.Public | BindingFlags.Static);
+
+			return (Func<Dictionary<string, object>, object>)method.CreateDelegate(typeof(Func<Dictionary<string, object>, object>));
 		}
 	}
 }

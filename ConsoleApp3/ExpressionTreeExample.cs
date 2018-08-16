@@ -15,7 +15,7 @@ namespace ConsoleApp3
 			return Expression.Lambda<Func<int, bool>>(numLessThanFive, left);
 		}
 
-		public static Expression<Func<Dictionary<string, object>, object>> BuildDictionaryToTypeExpression(
+		public static Func<Dictionary<string, object>, object> GenerateMethod(
 			Type entityType)
 		{
 			var inputParameterType = typeof(Dictionary<string, object>);
@@ -51,7 +51,7 @@ namespace ConsoleApp3
 
 			var block = Expression.Block(new[] {outValue, result}, list);
 			var lambda = Expression.Lambda<Func<Dictionary<string, object>, object>>(block, inputParameter);
-			return lambda;
+			return lambda.Compile();
 		}
 	}
 }
