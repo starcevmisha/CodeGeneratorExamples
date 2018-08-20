@@ -10,19 +10,22 @@ namespace ConsoleApp3
 	{
 		public static Func<Dictionary<string, object>, object> GenerateMethod(Type type)
 		{
-			var da = AppDomain.CurrentDomain.DefineDynamicAssembly(
-				new AssemblyName("dyn"), // call it whatever you want
-				AssemblyBuilderAccess.RunAndSave);
+//			var da = AppDomain.CurrentDomain.DefineDynamicAssembly(
+//				new AssemblyName("dyn"), // call it whatever you want
+//				AssemblyBuilderAccess.RunAndSave);
+//
+//			var dm = da.DefineDynamicModule("dyn_mod", "dyn.dll");
+//			var dt = dm.DefineType("dyn_type");
+//
+//			var method = dt.DefineMethod(
+//				"Foo",
+//				MethodAttributes.Public | MethodAttributes.Static, typeof(object),
+//				new[] {typeof(Dictionary<string, object>)});
+//			method.DefineParameter(1, ParameterAttributes.None, "dictionary");
 
-			var dm = da.DefineDynamicModule("dyn_mod", "dyn.dll");
-			var dt = dm.DefineType("dyn_type");
-
-			var method = dt.DefineMethod(
-				"Foo",
-				MethodAttributes.Public | MethodAttributes.Static, typeof(object),
-				new[] {typeof(Dictionary<string, object>)});
-			method.DefineParameter(1, ParameterAttributes.None, "dictionary");
-
+			var method = new DynamicMethod("GremitGenerator",
+				typeof(object),
+				new[] { typeof(Dictionary<string, object>) });
 
 			using (var il = new GroboIL(method))
 			{
@@ -53,15 +56,11 @@ namespace ConsoleApp3
 
 				il.Ldloc(target);
 				il.Ret();
-				Console.WriteLine(il.GetILCode());
 			}
 
 
-			dt.CreateType();
-			da.Save("dyn.dll");
-
-
-			return (dic) => dt.GetMethod("Foo").Invoke(null, new object[] {dic});
+			return (Func<Dictionary<string, object>, object>) method.CreateDelegate(
+				typeof(Func<Dictionary<string, object>, object>));
 		}
 	}
 }

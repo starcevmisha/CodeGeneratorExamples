@@ -11,7 +11,8 @@ namespace ConsoleApp3
 
 	public class RoslynRawExample
 	{
-		public static Func<Dictionary<string, object>, object> GenerateMethod(Type type)
+		public static Func<Dictionary<string, object>, object> 
+			GenerateMethod(Type type)
 		{
 			var listStatementSyntax = new List<StatementSyntax>();
 
@@ -49,7 +50,7 @@ namespace ConsoleApp3
 							IdentifierName(property.Name)
 						),
 						CastExpression(
-							ParseTypeName(property.PropertyType.Name),
+							ParseTypeName("string"),
 							IdentifierName("value")
 						)
 					)

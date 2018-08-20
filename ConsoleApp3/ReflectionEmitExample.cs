@@ -16,19 +16,10 @@ namespace ConsoleApp3
 		[SuppressMessage("ReSharper", "PossibleNullReferenceException")]
 		public static Func<Dictionary<string, object>, object> GenerateMethod(Type type)
 		{
-			var da = AppDomain.CurrentDomain.DefineDynamicAssembly(
-				new AssemblyName("dyn"), // call it whatever you want
-				AssemblyBuilderAccess.RunAndSave);
 
-			var dm = da.DefineDynamicModule("dyn_mod", "dyn.dll");
-			var dt = dm.DefineType("dyn_type");
-
-			var method = dt.DefineMethod(
-				"Foo",
-				MethodAttributes.Public | MethodAttributes.Static, typeof(object),
-				new[] {typeof(Dictionary<string, object>)});
-			method.DefineParameter(1, ParameterAttributes.None, "dictionary");
-
+			var method = new DynamicMethod("",
+				typeof(object),
+				new[] { typeof(Dictionary<string, object>) });
 
 			var generator = method.GetILGenerator();
 
@@ -62,11 +53,7 @@ namespace ConsoleApp3
 			generator.Emit(OpCodes.Ldloc_0);
 			generator.Emit(OpCodes.Ret);
 
-			dt.CreateType();
-			da.Save("dyn.dll");
-
-
-			return (Func<Dictionary<string, object>, object>) dt.GetMethod("Foo")
+			return (Func<Dictionary<string, object>, object>) method
 				.CreateDelegate(typeof(Func<Dictionary<string, object>, object>));
 		}
 	}
