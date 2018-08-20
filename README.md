@@ -1,5 +1,5 @@
 # CodeGeneratorExamples
 
 ## Презентация
-https://docs.google.com/document/d/1hQ3aB3wNaHPh_Pk2ICuerhJnSR8JjN6pa98lOtw8q8g
+https://docs.google.com/presentation/d/1kpZ3pBQruMSScQddQUotLZbrUKfNA2uIiwGuOINp5ic
 
